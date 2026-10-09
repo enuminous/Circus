@@ -1,0 +1,118 @@
+{
+  "animal": "CIRCUS",
+  "version": "1.0.0",
+  "audit_id": "demo-missing-label-lineage",
+  "frozen_target": {
+    "claim": "The method improves event detection under degraded input.",
+    "frozen_at": "2026-01-10T09:00:00Z",
+    "operational_definition": "Improvement means higher median lead time at a fixed false-positive rate.",
+    "thresholds": {
+      "false_positive_rate_max": 0.06
+    },
+    "scope": "Synthetic demonstration only.",
+    "population": "Demo records."
+  },
+  "pipeline": [
+    {
+      "stage": "definition",
+      "artifact": "claim-v1",
+      "provenance_status": "documented",
+      "source": "protocol.md",
+      "frozen_at": "2026-01-10T09:00:00Z",
+      "independent": true
+    },
+    {
+      "stage": "data_selection",
+      "artifact": "selected-window-list",
+      "provenance_status": "documented",
+      "source": "selection.csv",
+      "frozen_at": null,
+      "independent": false,
+      "notes": "Chosen after initial outcomes were viewed."
+    },
+    {
+      "stage": "labels",
+      "artifact": "event-labels",
+      "provenance_status": "missing",
+      "source": null,
+      "frozen_at": null,
+      "independent": null,
+      "notes": "Label source and adjudication lineage unavailable."
+    },
+    {
+      "stage": "scoring",
+      "artifact": "metric-v1",
+      "provenance_status": "partial",
+      "source": "analysis.py",
+      "frozen_at": null,
+      "independent": false
+    },
+    {
+      "stage": "validation",
+      "artifact": "confirmatory-run",
+      "provenance_status": "documented",
+      "source": "results.csv",
+      "frozen_at": "2026-01-10T12:00:00Z",
+      "independent": false,
+      "notes": "Shares selection rules with development data."
+    }
+  ],
+  "dependencies": [
+    {
+      "from": "claim-v1",
+      "to": "selected-window-list",
+      "relation": "selects",
+      "materiality": "material",
+      "feedback": true,
+      "evidence_status": "demonstrated",
+      "rationale": "Windows were retained after outcome inspection."
+    },
+    {
+      "from": "event-labels",
+      "to": "confirmatory-run",
+      "relation": "labels",
+      "materiality": "unknown",
+      "feedback": false,
+      "evidence_status": "unresolved",
+      "rationale": "Label provenance unavailable."
+    }
+  ],
+  "risks": [
+    {
+      "id": "C-02",
+      "name": "Selection on success",
+      "status": "present",
+      "materiality": "material",
+      "evidence": "Selection list created after initial outcomes were inspected.",
+      "mitigation": "Repeat with a frozen inclusion rule on untouched records."
+    },
+    {
+      "id": "C-03",
+      "name": "Label contamination",
+      "status": "na",
+      "materiality": "material",
+      "evidence": "Source records unavailable.",
+      "mitigation": "Obtain independent blinded labels."
+    },
+    {
+      "id": "C-08",
+      "name": "Provenance gap",
+      "status": "present",
+      "materiality": "material",
+      "evidence": "Label provenance missing.",
+      "mitigation": "Recover source and adjudication trail."
+    }
+  ],
+  "independent_checks": [
+    {
+      "check": "Blinded relabeling on untouched data with frozen code and thresholds",
+      "frozen": false,
+      "independently_sourced": false,
+      "status": "pending",
+      "artifact": null,
+      "notes": "Not yet performed."
+    }
+  ],
+  "decision": "FAIL",
+  "summary": "Not a pass: success-conditioned selection is documented, and material label provenance is missing."
+}
