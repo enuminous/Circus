@@ -1,0 +1,283 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CIRCUS audit report",
+  "type": "object",
+  "required": [
+    "animal",
+    "version",
+    "audit_id",
+    "frozen_target",
+    "pipeline",
+    "dependencies",
+    "risks",
+    "independent_checks",
+    "decision",
+    "summary"
+  ],
+  "properties": {
+    "animal": {
+      "const": "CIRCUS"
+    },
+    "version": {
+      "type": "string"
+    },
+    "audit_id": {
+      "type": "string"
+    },
+    "frozen_target": {
+      "type": "object",
+      "required": [
+        "claim",
+        "frozen_at",
+        "operational_definition",
+        "thresholds"
+      ],
+      "properties": {
+        "claim": {
+          "type": "string"
+        },
+        "frozen_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "operational_definition": {
+          "type": "string"
+        },
+        "thresholds": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "scope": {
+          "type": "string"
+        },
+        "population": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "pipeline": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "stage",
+          "artifact",
+          "provenance_status",
+          "source"
+        ],
+        "properties": {
+          "stage": {
+            "enum": [
+              "definition",
+              "data_selection",
+              "labels",
+              "scoring",
+              "validation",
+              "reporting",
+              "preprocessing",
+              "tuning",
+              "other"
+            ]
+          },
+          "artifact": {
+            "type": "string"
+          },
+          "provenance_status": {
+            "enum": [
+              "documented",
+              "missing",
+              "partial"
+            ]
+          },
+          "source": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "frozen_at": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "independent": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "from",
+          "to",
+          "relation",
+          "materiality"
+        ],
+        "properties": {
+          "from": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string"
+          },
+          "relation": {
+            "enum": [
+              "informs",
+              "selects",
+              "defines",
+              "labels",
+              "tunes",
+              "scores",
+              "validates",
+              "reports",
+              "other"
+            ]
+          },
+          "materiality": {
+            "enum": [
+              "material",
+              "nonmaterial",
+              "unknown"
+            ]
+          },
+          "feedback": {
+            "type": "boolean"
+          },
+          "evidence_status": {
+            "enum": [
+              "demonstrated",
+              "supported_but_incomplete",
+              "hypothesis_postulate",
+              "unresolved",
+              "rejected"
+            ]
+          },
+          "rationale": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "risks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "status",
+          "materiality",
+          "evidence"
+        ],
+        "properties": {
+          "id": {
+            "enum": [
+              "C-01",
+              "C-02",
+              "C-03",
+              "C-04",
+              "C-05",
+              "C-06",
+              "C-07",
+              "C-08"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "present",
+              "absent_with_evidence",
+              "unresolved",
+              "na"
+            ]
+          },
+          "materiality": {
+            "enum": [
+              "material",
+              "nonmaterial",
+              "unknown"
+            ]
+          },
+          "evidence": {
+            "type": "string"
+          },
+          "mitigation": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "independent_checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "check",
+          "frozen",
+          "independently_sourced",
+          "status"
+        ],
+        "properties": {
+          "check": {
+            "type": "string"
+          },
+          "frozen": {
+            "type": "boolean"
+          },
+          "independently_sourced": {
+            "type": "boolean"
+          },
+          "status": {
+            "enum": [
+              "passed",
+              "failed",
+              "pending",
+              "na"
+            ]
+          },
+          "artifact": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "decision": {
+      "enum": [
+        "PASS",
+        "FAIL",
+        "N/A"
+      ]
+    },
+    "summary": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}
