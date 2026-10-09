@@ -1,0 +1,19 @@
+{
+  "animal": "CIRCUS",
+  "version": "1.0.0",
+  "audit_id": "",
+  "frozen_target": {
+    "claim": "",
+    "frozen_at": null,
+    "operational_definition": "",
+    "thresholds": null,
+    "scope": "",
+    "population": ""
+  },
+  "pipeline": [],
+  "dependencies": [],
+  "risks": [],
+  "independent_checks": [],
+  "decision": "N/A",
+  "summary": "Complete all material provenance fields; missing evidence is not a pass."
+}
