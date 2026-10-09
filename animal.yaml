@@ -1,0 +1,36 @@
+name: CIRCUS
+full_name: Circularity and Information-leakage Audit
+version: 1.0.0
+purpose: Audit how evidence supporting each claim was constructed and detect circular support or information leakage.
+inputs:
+  - frozen_claims
+  - operational_definitions
+  - data_selection_provenance
+  - label_provenance
+  - scoring_and_threshold_provenance
+  - validation_and_reporting_provenance
+transformation:
+  - construct_directed_provenance_dependency_graph
+  - flag_claim_or_outcome_informed_evidence_construction
+  - assess_materiality_of_feedback_paths
+  - specify_frozen_independent_checks
+outputs:
+  - provenance_dependency_map
+  - named_circularity_risks
+  - independent_check_plan
+  - evidence_statuses
+  - gate_decision
+pass_criteria:
+  - all_material_provenance_documented
+  - no_material_feedback_path_remains
+  - methods_frozen_before_independent_check
+  - labels_or_adjudication_independently_sourced
+  - reproducible_from_recorded_artifacts
+fail_criteria:
+  - material_feedback_path_remains
+  - independent_check_inherits_claim_conditioned_choices
+  - post_selection_can_explain_confirmation
+na_criteria:
+  - provenance_missing_for_a_material_field_or_path
+rule: N/A is not a pass; overall PASS prohibited while material provenance is N/A.
+risk_ids: [C-01, C-02, C-03, C-04, C-05, C-06, C-07, C-08]
