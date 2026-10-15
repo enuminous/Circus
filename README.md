@@ -101,3 +101,7 @@ CIRCUS focuses on **evidence ancestry and support construction**. It does not cl
 ## License
 
 CC0-1.0. See `LICENSE`.
+
+## Lean decision-stage coverage
+
+[Source-pinned shared Lean verification](LEAN_VERIFICATION.md) covers the decision stage and records the remaining implementation obligations.
